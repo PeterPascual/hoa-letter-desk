@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HOA Letter Desk — Violation Letter Generator for Self-Managed HOA Boards</title>
+<meta name="description" content="Generate professional, state-aware HOA violation letters in your browser. Courtesy notices, violation notices, hearing notices and fine letters. 100% private — no homeowner data ever leaves your computer.">
+<meta property="og:title" content="HOA Letter Desk — Violation Letters for Self-Managed Boards">
+<meta property="og:description" content="The private, offline-capable HOA enforcement letter generator. No signup. No AI uploading your residents' data. Print-ready in 60 seconds.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Public+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f6f1e7;
+    --paper-deep:#efe7d7;
+    --ink:#1c2b23;
+    --ink-soft:#3f5248;
+    --pine:#234034;
+    --pine-deep:#182e25;
+    --brass:#a8842c;
+    --brass-soft:#c9a955;
+    --seal:#9b3a2a;
+    --line:#d8cdb6;
+    --white:#fffdf8;
+    --shadow: 0 1px 2px rgba(28,43,35,.08), 0 12px 32px -12px rgba(28,43,35,.25);
+    --font-display:"Fraunces", Georgia, serif;
+    --font-ui:"Public Sans", -apple-system, sans-serif;
+    --font-letter:"Source Serif 4", Georgia, serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--font-ui);
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.55;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(168,132,44,.10), transparent),
+      repeating-linear-gradient(0deg, transparent 0 31px, rgba(35,64,52,.028) 31px 32px);
+  }
+  ::selection{background:var(--brass-soft);color:var(--pine-deep)}
+
+  /* ---------- masthead ---------- */
+  header.masthead{
+    border-bottom:3px double var(--pine);
+    background:var(--paper);
+    position:sticky;top:0;z-index:50;
+    box-shadow:0 1px 0 rgba(35,64,52,.06), 0 8px 24px -18px rgba(28,43,35,.35);
+  }
+  .masthead-inner{
+    max-width:1240px;margin:0 auto;padding:14px 28px;
+    display:flex;align-items:center;gap:16px;
+  }
+  .seal{
+    width:44px;height:44px;border-radius:50%;
+    border:2px solid var(--pine);
+    display:grid;place-items:center;
+    font-family:var(--font-display);font-weight:900;font-size:15px;
+    color:var(--pine);letter-spacing:-.5px;
+    background:radial-gradient(circle at 35% 30%, var(--white), var(--paper-deep));
+    box-shadow:inset 0 0 0 3px var(--paper), inset 0 0 0 4px rgba(35,64,52,.35);
+    flex-shrink:0;
+  }
+  .masthead h1{font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--pine-deep);letter-spacing:-.3px}
+  .masthead h1 em{font-style:italic;color:var(--brass)}
+  .masthead .tagline{font-size:12px;text-transform:uppercase;letter-spacing:.14em;color:var(--ink-soft);margin-top:1px}
+  .masthead nav{margin-left:auto;display:flex;gap:22px;align-items:center}
+  .masthead nav a{color:var(--ink-soft);text-decoration:none;font-size:14px;font-weight:600}
+  .masthead nav a:hover{color:var(--pine)}
+  .btn-pro{
+    background:var(--pine);color:var(--paper)!important;
+    padding:9px 18px;border-radius:3px;font-weight:700;
+    border:1px solid var(--pine-deep);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.15), 0 2px 6px -2px rgba(24,46,37,.5);
+    transition:transform .15s, box-shadow .15s;
+  }
+  .btn-pro:hover{transform:translateY(-1px);box-shadow:inset 0 1px 0 rgba(255,255,255,.15), 0 6px 14px -4px rgba(24,46,37,.55)}
+
+  /* ---------- hero ---------- */
+  .hero{max-width:1240px;margin:0 auto;padding:64px 28px 44px;display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center}
+  .kicker{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.16em;color:var(--seal);margin-bottom:18px}
+  .kicker::before{content:"";width:26px;height:2px;background:var(--seal)}
+  .hero h2{font-family:var(--font-display);font-size:clamp(34px,4.6vw,56px);font-weight:900;line-height:1.06;color:var(--pine-deep);letter-spacing:-1px}
+  .hero h2 em{font-style:italic;font-weight:600;color:var(--brass)}
+  .hero p.lede{font-size:18px;color:var(--ink-soft);margin:20px 0 28px;max-width:54ch}
+  .hero-ctas{display:flex;gap:14px;flex-wrap:wrap}
+  .btn-primary{
+    background:var(--pine);color:var(--paper);text-decoration:none;
+    font-weight:700;font-size:16px;padding:14px 28px;border-radius:3px;
+    border:1px solid var(--pine-deep);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.15), 0 3px 8px -2px rgba(24,46,37,.5);
+    transition:transform .15s, box-shadow .15s;
+  }
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:inset 0 1px 0 rgba(255,255,255,.15), 0 8px 18px -6px rgba(24,46,37,.6)}
+  .btn-ghost{
+    color:var(--pine);text-decoration:none;font-weight:700;font-size:16px;
+    padding:14px 24px;border:1px solid var(--pine);border-radius:3px;
+    background:transparent;transition:background .15s;
+  }
+  .btn-ghost:hover{background:rgba(35,64,52,.06)}
+  .trust-row{display:flex;gap:24px;margin-top:30px;flex-wrap:wrap}
+  .trust-item{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--ink-soft);max-width:180px}
+  .trust-item b{color:var(--pine-deep);display:block;font-size:13px}
+  .trust-item .dot{width:8px;height:8px;border-radius:50%;background:var(--brass);margin-top:6px;flex-shrink:0}
+
+  .hero-paper{position:relative;transform:rotate(1.2deg)}
+  .hero-paper .sheet{
+    background:var(--white);border:1px solid var(--line);
+    padding:34px 32px;box-shadow:var(--shadow);
+    font-family:var(--font-letter);font-size:12.5px;color:var(--ink);line-height:1.7;
+  }
+  .hero-paper .sheet::before{
+    content:"";position:absolute;inset:10px -10px -10px 10px;
+    background:var(--paper-deep);border:1px solid var(--line);z-index:-1;transform:rotate(-1.6deg);
+  }
+  .hero-paper .lh{font-family:var(--font-display);font-weight:700;font-size:15px;color:var(--pine-deep);border-bottom:2px solid var(--pine);padding-bottom:8px;margin-bottom:14px}
+  .hero-paper .stamp{
+    position:absolute;top:-14px;right:-14px;
+    background:var(--seal);color:var(--paper);font-family:var(--font-ui);
+    font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;
+    padding:8px 14px;transform:rotate(6deg);border-radius:2px;
+    box-shadow:0 4px 10px -2px rgba(155,58,42,.5);
+  }
+
+  /* ---------- app ---------- */
+  .app{max-width:1240px;margin:0 auto;padding:20px 28px 80px}
+  .app-head{display:flex;align-items:baseline;gap:16px;border-top:3px double var(--pine);padding-top:28px;margin-bottom:24px}
+  .app-head h3{font-family:var(--font-display);font-size:28px;font-weight:700;color:var(--pine-deep)}
+  .app-head span{font-size:13px;color:var(--ink-soft)}
+  .workbench{display:grid;grid-template-columns:420px 1fr;gap:28px;align-items:start}
+
+  .panel{background:var(--white);border:1px solid var(--line);border-radius:4px;box-shadow:var(--shadow)}
+  .panel-title{
+    font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.15em;
+    color:var(--paper);background:var(--pine);padding:10px 18px;border-radius:3px 3px 0 0;
+  }
+  .panel-body{padding:20px 18px}
+  .field{margin-bottom:15px}
+  .field label{display:block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);margin-bottom:5px}
+  .field input,.field select,.field textarea{
+    width:100%;padding:10px 12px;font-family:var(--font-ui);font-size:14px;color:var(--ink);
+    background:var(--paper);border:1px solid var(--line);border-radius:3px;outline:none;
+    transition:border-color .15s, box-shadow .15s;
+  }
+  .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--brass);box-shadow:0 0 0 3px rgba(168,132,44,.15)}
+  .field textarea{resize:vertical;min-height:64px}
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .hint{font-size:11.5px;color:var(--ink-soft);margin-top:4px}
+
+  /* letter-type chips */
+  .lt-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px}
+  .lt-chip{
+    position:relative;border:1px solid var(--line);border-radius:3px;background:var(--paper);
+    padding:10px 12px;cursor:pointer;font-size:12.5px;font-weight:600;color:var(--ink-soft);
+    transition:all .15s;user-select:none;line-height:1.3;
+  }
+  .lt-chip small{display:block;font-weight:400;font-size:10.5px;margin-top:2px;color:var(--ink-soft);opacity:.75}
+  .lt-chip:hover{border-color:var(--brass)}
+  .lt-chip.active{background:var(--pine);border-color:var(--pine-deep);color:var(--paper)}
+  .lt-chip.active small{color:var(--paper);opacity:.7}
+  .lt-chip.locked::after{
+    content:"PRO";position:absolute;top:6px;right:6px;
+    font-size:8.5px;font-weight:800;letter-spacing:.08em;
+    background:var(--brass);color:var(--white);padding:2px 5px;border-radius:2px;
+  }
+  .lt-chip.locked{opacity:.85}
+
+  .statebar{
+    margin-top:14px;padding:12px 14px;background:var(--paper-deep);
+    border-left:3px solid var(--brass);border-radius:0 3px 3px 0;
+    font-size:12.5px;color:var(--ink-soft);
+  }
+  .statebar b{color:var(--pine-deep)}
+  .statebar ul{margin:6px 0 0 16px}
+  .statebar li{margin-bottom:3px}
+
+  /* preview */
+  .preview-wrap{position:sticky;top:86px}
+  .preview-actions{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+  .pa-btn{
+    font-family:var(--font-ui);font-size:13.5px;font-weight:700;cursor:pointer;
+    padding:10px 18px;border-radius:3px;border:1px solid var(--pine);
+    background:var(--pine);color:var(--paper);
+    transition:transform .12s, box-shadow .12s;
+  }
+  .pa-btn.secondary{background:transparent;color:var(--pine)}
+  .pa-btn:hover{transform:translateY(-1px);box-shadow:0 4px 10px -4px rgba(24,46,37,.5)}
+  .pa-btn.secondary:hover{background:rgba(35,64,52,.06)}
+  .copied-note{font-size:12.5px;color:var(--pine);font-weight:700;align-self:center;opacity:0;transition:opacity .3s}
+  .copied-note.show{opacity:1}
+
+  .letter-sheet{
+    background:var(--white);border:1px solid var(--line);
+    box-shadow:var(--shadow);padding:56px 60px;
+    font-family:var(--font-letter);font-size:14.5px;line-height:1.75;color:#1d2620;
+    min-height:700px;position:relative;
+  }
+  .letter-sheet .letterhead{
+    text-align:center;border-bottom:2.5px solid var(--pine);padding-bottom:14px;margin-bottom:26px;
+  }
+  .letter-sheet .letterhead .assoc{font-family:var(--font-display);font-weight:700;font-size:20px;color:var(--pine-deep);letter-spacing:.3px}
+  .letter-sheet .letterhead .addr{font-size:12px;color:var(--ink-soft);margin-top:3px;letter-spacing:.04em}
+  .letter-sheet .ltr-meta{margin-bottom:22px;font-size:13.5px}
+  .letter-sheet .ltr-re{font-weight:600;margin:18px 0}
+  .letter-sheet p{margin-bottom:14px}
+  .letter-sheet .ltr-detail{
+    margin:16px 0;padding:12px 18px;background:var(--paper);
+    border-left:3px solid var(--brass);font-size:13.5px;
+  }
+  .letter-sheet .ltr-detail div{margin-bottom:4px}
+  .letter-sheet .sig{margin-top:36px}
+  .letter-sheet .sig .line{width:230px;border-bottom:1px solid #555;height:34px;margin-bottom:5px}
+  .letter-sheet .cc{margin-top:26px;font-size:12px;color:var(--ink-soft)}
+  .letter-sheet .legal-foot{
+    position:absolute;bottom:22px;left:60px;right:60px;
+    font-size:10px;color:#8b8474;border-top:1px solid var(--line);padding-top:8px;text-align:center;
+  }
+
+  /* locked overlay */
+  .locked-overlay{
+    position:absolute;inset:0;backdrop-filter:blur(5px);
+    background:rgba(246,241,231,.72);display:none;
+    align-items:center;justify-content:center;z-index:5;
+  }
+  .locked-overlay.show{display:flex}
+  .locked-card{
+    background:var(--white);border:1px solid var(--line);border-radius:4px;
+    box-shadow:var(--shadow);padding:34px 38px;text-align:center;max-width:400px;
+  }
+  .locked-card .badge{
+    display:inline-block;background:var(--brass);color:var(--white);
+    font-size:11px;font-weight:800;letter-spacing:.12em;padding:4px 12px;border-radius:2px;margin-bottom:14px;
+  }
+  .locked-card h4{font-family:var(--font-display);font-size:22px;color:var(--pine-deep);margin-bottom:8px}
+  .locked-card p{font-size:13.5px;color:var(--ink-soft);margin-bottom:18px}
+  .locked-card input{
+    width:100%;padding:10px 12px;font-size:14px;text-align:center;letter-spacing:.1em;
+    border:1px solid var(--line);border-radius:3px;background:var(--paper);margin-bottom:10px;outline:none;
+  }
+  .locked-card input:focus{border-color:var(--brass)}
+  .locked-card .err{color:var(--seal);font-size:12px;font-weight:600;min-height:16px;margin-bottom:4px}
+
+  /* ---------- pricing ---------- */
+  .pricing{max-width:1240px;margin:0 auto;padding:70px 28px}
+  .pricing-head{text-align:center;margin-bottom:44px}
+  .pricing-head h3{font-family:var(--font-display);font-size:38px;font-weight:900;color:var(--pine-deep);letter-spacing:-.5px}
+  .pricing-head p{color:var(--ink-soft);margin-top:10px;font-size:16px}
+  .tiers{display:grid;grid-template-columns:1fr 1fr;gap:28px;max-width:880px;margin:0 auto}
+  .tier{
+    background:var(--white);border:1px solid var(--line);border-radius:4px;
+    padding:36px 34px;box-shadow:var(--shadow);position:relative;
+  }
+  .tier.featured{border:2px solid var(--pine);transform:scale(1.02)}
+  .tier .ribbon{
+    position:absolute;top:-13px;left:50%;transform:translateX(-50%);
+    background:var(--seal);color:var(--paper);font-size:11px;font-weight:800;
+    letter-spacing:.12em;text-transform:uppercase;padding:5px 16px;border-radius:2px;
+  }
+  .tier h4{font-family:var(--font-display);font-size:22px;color:var(--pine-deep)}
+  .tier .price{font-family:var(--font-display);font-size:46px;font-weight:900;color:var(--pine);margin:10px 0 2px}
+  .tier .price small{font-size:15px;font-weight:400;color:var(--ink-soft)}
+  .tier .per{font-size:12.5px;color:var(--ink-soft);margin-bottom:20px}
+  .tier ul{list-style:none;margin-bottom:26px}
+  .tier li{padding:7px 0;font-size:14px;color:var(--ink-soft);border-bottom:1px dashed var(--line);display:flex;gap:9px;align-items:baseline}
+  .tier li::before{content:"✓";color:var(--brass);font-weight:800;flex-shrink:0}
+  .tier li.no::before{content:"—";color:var(--line)}
+  .tier li.no{opacity:.55}
+  .tier .cta{display:block;text-align:center}
+
+  /* ---------- states table ---------- */
+  .states{max-width:1240px;margin:0 auto;padding:0 28px 70px}
+  .states h3{font-family:var(--font-display);font-size:32px;font-weight:900;color:var(--pine-deep);text-align:center;margin-bottom:8px}
+  .states .sub{text-align:center;color:var(--ink-soft);margin-bottom:34px;font-size:15px}
+  .states-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
+  .state-card{background:var(--white);border:1px solid var(--line);border-radius:4px;padding:20px 22px;box-shadow:0 1px 2px rgba(28,43,35,.06)}
+  .state-card h5{font-family:var(--font-display);font-size:17px;color:var(--pine-deep);margin-bottom:4px}
+  .state-card .cite{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--brass);font-weight:700;margin-bottom:8px}
+  .state-card p{font-size:13px;color:var(--ink-soft)}
+
+  /* ---------- faq ---------- */
+  .faq{max-width:820px;margin:0 auto;padding:0 28px 80px}
+  .faq h3{font-family:var(--font-display);font-size:32px;font-weight:900;color:var(--pine-deep);text-align:center;margin-bottom:34px}
+  .faq details{background:var(--white);border:1px solid var(--line);border-radius:4px;margin-bottom:10px;box-shadow:0 1px 2px rgba(28,43,35,.06)}
+  .faq summary{padding:18px 22px;font-weight:700;font-size:15px;cursor:pointer;color:var(--pine-deep);list-style:none;display:flex;justify-content:space-between;align-items:center}
+  .faq summary::after{content:"+";font-family:var(--font-display);font-size:22px;color:var(--brass)}
+  .faq details[open] summary::after{content:"–"}
+  .faq details p{padding:0 22px 18px;font-size:14px;color:var(--ink-soft)}
+
+  /* ---------- footer ---------- */
+  footer{border-top:3px double var(--pine);background:var(--paper-deep);padding:36px 28px;text-align:center}
+  footer .disclaimer{max-width:760px;margin:0 auto 16px;font-size:12px;color:var(--ink-soft);line-height:1.6}
+  footer .fine{font-size:12px;color:var(--ink-soft)}
+  footer .fine a{color:var(--pine)}
+
+  /* ---------- print ---------- */
+  @media print{
+    body{background:#fff}
+    header.masthead,.hero,.app-head,.workbench > .form-col,.preview-actions,
+    .pricing,.states,.faq,footer,.locked-overlay,.statebar{display:none!important}
+    .app{padding:0;max-width:none}
+    .workbench{display:block}
+    .preview-wrap{position:static}
+    @page{margin:0.55in 0.65in}
+    .letter-sheet{border:none;box-shadow:none;padding:0;min-height:auto;font-size:11.5pt;line-height:1.5}
+    .letter-sheet .legal-foot{display:none}
+    .letter-sheet .letterhead{padding-bottom:10px;margin-bottom:16px}
+    .letter-sheet .ltr-meta{margin-bottom:16px}
+    .letter-sheet .ltr-re{margin:14px 0}
+    .letter-sheet p{margin-bottom:10px;orphans:3;widows:3}
+    .letter-sheet .ltr-detail{margin:10px 0;padding:10px 16px}
+    .letter-sheet .sig{margin-top:18px}
+    .letter-sheet .cc{margin-top:16px}
+    .letter-sheet .ltr-detail,.letter-sheet .letterhead,.letter-sheet .ltr-meta{page-break-inside:avoid;break-inside:avoid}
+    .letter-sheet .sig,.letter-sheet .cc{page-break-inside:avoid;break-inside:avoid}
+  }
+
+  @media screen and (max-width:980px){
+    .hero{grid-template-columns:1fr;padding-top:40px}
+    .hero-paper{display:none}
+    .workbench{grid-template-columns:1fr}
+    .preview-wrap{position:static}
+    .tiers{grid-template-columns:1fr}
+    .tier.featured{transform:none}
+    .letter-sheet{padding:32px 26px}
+    .masthead nav a:not(.btn-pro){display:none}
+  }
+
+  /* entrance animation */
+  @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+  .hero > *, .app-head, .workbench{animation:rise .6s ease both}
+  .hero > *:nth-child(2){animation-delay:.08s}
+  .workbench{animation-delay:.15s}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="seal">LD</div>
+    <div>
+      <h1>HOA Letter <em>Desk</em></h1>
+      <div class="tagline">Enforcement correspondence for self-managed boards</div>
+    </div>
+    <nav>
+      <a href="#generator">Generator</a>
+      <a href="#states">State Rules</a>
+      <a href="#faq">FAQ</a>
+      <a href="#pricing" class="btn-pro">Unlock Pro — $49</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div>
+    <div class="kicker">For volunteer boards & self-managed associations</div>
+    <h2>Send violation letters that hold up — <em>without</em> hiring a manager.</h2>
+    <p class="lede">Courtesy notice through fine assessment, generated in your browser with your state's notice and cure requirements baked in. No signup. No per-letter AI fees. And your homeowners' names and addresses <strong>never leave this page</strong>.</p>
+    <div class="hero-ctas">
+      <a class="btn-primary" href="#generator">Write a letter — free</a>
+      <a class="btn-ghost" href="#pricing">See the Pro pack</a>
+    </div>
+    <div class="trust-row">
+      <div class="trust-item"><span class="dot"></span><span><b>100% private</b>Runs entirely offline in your browser</span></div>
+      <div class="trust-item"><span class="dot"></span><span><b>State-aware</b>Cure periods & hearing rules for 10 states</span></div>
+      <div class="trust-item"><span class="dot"></span><span><b>Print-ready</b>Letterhead formatting, certified-mail ready</span></div>
+    </div>
+  </div>
+  <div class="hero-paper">
+    <div class="stamp">First Notice</div>
+    <div class="sheet">
+      <div class="lh">OAKWOOD MEADOWS HOMEOWNERS ASSOCIATION</div>
+      <p>March 12, 2026 &nbsp;·&nbsp; Sent via Certified Mail</p>
+      <p><strong>RE: Notice of Violation — Trash containers stored in view (CC&amp;R §4.12)</strong></p>
+      <p>Dear Mr. Alvarez,</p>
+      <p>During a routine community inspection on March 10, the Association observed that trash containers at 214 Oakwood Ln. remain visible from the street on non-collection days, in violation of Section 4.12 of the Declaration…</p>
+      <p>You have <strong>thirty (30) days</strong> from receipt of this notice to cure the violation. You may request a hearing before the Board…</p>
+    </div>
+  </div>
+</section>
+
+<main class="app" id="generator">
+  <div class="app-head">
+    <h3>The Letter Desk</h3>
+    <span>Fill in the details — the letter writes itself on the right. Nothing is uploaded, ever.</span>
+  </div>
+
+  <div class="workbench">
+    <div class="form-col">
+      <div class="panel">
+        <div class="panel-title">1 · Letter type</div>
+        <div class="panel-body">
+          <div class="lt-grid" id="ltGrid"></div>
+          <div class="hint">Escalation ladder: courtesy → first notice → second notice → final/hearing → fine. Courts and mediators look for this paper trail.</div>
+        </div>
+      </div>
+
+      <div class="panel" style="margin-top:18px">
+        <div class="panel-title">2 · Association & recipient</div>
+        <div class="panel-body">
+          <div class="field"><label>Association name</label><input id="fAssoc" placeholder="Oakwood Meadows Homeowners Association" value=""></div>
+          <div class="field"><label>Association mailing address</label><input id="fAssocAddr" placeholder="P.O. Box 410, Austin, TX 78701"></div>
+          <div class="field-row">
+            <div class="field"><label>Homeowner name</label><input id="fOwner" placeholder="Daniel Alvarez"></div>
+            <div class="field"><label>State</label><select id="fState"></select></div>
+          </div>
+          <div class="field"><label>Property address</label><input id="fProp" placeholder="214 Oakwood Lane"></div>
+        </div>
+      </div>
+
+      <div class="panel" style="margin-top:18px">
+        <div class="panel-title">3 · The violation</div>
+        <div class="panel-body">
+          <div class="field">
+            <label>Violation category</label>
+            <select id="fViol">
+              <option value="trash">Trash containers in view</option>
+              <option value="lawn">Lawn / landscaping not maintained</option>
+              <option value="vehicle">Inoperable or prohibited vehicle</option>
+              <option value="parking">Parking violation</option>
+              <option value="arch">Unapproved architectural change</option>
+              <option value="pet">Pet rule violation</option>
+              <option value="noise">Noise / nuisance</option>
+              <option value="str">Unauthorized short-term rental</option>
+              <option value="fence">Fence / structure condition</option>
+              <option value="holiday">Holiday décor past removal date</option>
+              <option value="custom">Other (describe below)</option>
+            </select>
+          </div>
+          <div class="field"><label>CC&amp;R / rule section cited</label><input id="fSection" placeholder="Section 4.12 of the Declaration"></div>
+          <div class="field-row">
+            <div class="field"><label>Date observed</label><input id="fDate" type="date"></div>
+            <div class="field"><label>Cure period (days)</label><input id="fCure" type="number" min="1" value="30"></div>
+          </div>
+          <div class="field"><label>Additional details (optional)</label><textarea id="fNotes" placeholder="e.g., This was also observed on Feb 20 and Feb 27. Photos on file."></textarea></div>
+          <div class="field-row">
+            <div class="field"><label>Signer name</label><input id="fSigner" placeholder="Pat Morgan"></div>
+            <div class="field"><label>Signer title</label><input id="fTitle" placeholder="Board President"></div>
+          </div>
+          <div class="field" id="fineWrap" style="display:none">
+            <label>Fine amount (per your adopted fine schedule)</label>
+            <input id="fFine" placeholder="$50.00">
+          </div>
+          <div class="statebar" id="stateBar"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="preview-wrap">
+      <div class="preview-actions">
+        <button class="pa-btn" onclick="window.print()">🖨&nbsp; Print / Save as PDF</button>
+        <button class="pa-btn secondary" onclick="copyLetter()">Copy text</button>
+        <span class="copied-note" id="copiedNote">Copied to clipboard ✓</span>
+      </div>
+      <div style="position:relative">
+        <div class="letter-sheet" id="letterSheet"></div>
+        <div class="locked-overlay" id="lockedOverlay">
+          <div class="locked-card">
+            <div class="badge">PRO LETTER</div>
+            <h4 id="lockedTitle">Final Notice &amp; Hearing</h4>
+            <p>This letter type is part of the <strong>Pro pack</strong> — a one-time $49 unlock for your whole board, forever. Includes final notices, hearing notices, fine assessments, ARC decisions, and delinquency letters.</p>
+            <a class="btn-primary cta" id="buyLink" href="https://gumroad.com" target="_blank" rel="noopener" style="display:block;margin-bottom:14px">Unlock Pro — $49 one-time</a>
+            <input id="licenseInput" placeholder="Enter unlock code" autocomplete="off">
+            <div class="err" id="licenseErr"></div>
+            <button class="pa-btn secondary" style="width:100%" onclick="tryUnlock()">Apply code</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<section class="pricing" id="pricing">
+  <div class="pricing-head">
+    <h3>One price. Your whole board. Forever.</h3>
+    <p>No subscription. No per-letter fees. No uploading your residents' information to an AI service.</p>
+  </div>
+  <div class="tiers">
+    <div class="tier">
+      <h4>Free Desk</h4>
+      <div class="price">$0</div>
+      <div class="per">forever, no signup</div>
+      <ul>
+        <li>Courtesy notice</li>
+        <li>First violation notice</li>
+        <li>Second notice</li>
+        <li>State cure-period guidance</li>
+        <li>Print / PDF output</li>
+        <li class="no">Final notice &amp; hearing letters</li>
+        <li class="no">Fine assessment letters</li>
+        <li class="no">ARC approval / denial letters</li>
+        <li class="no">Assessment delinquency letters</li>
+      </ul>
+      <a class="btn-ghost cta" href="#generator">Start writing</a>
+    </div>
+    <div class="tier featured">
+      <div class="ribbon">Pays for itself in one avoided dispute</div>
+      <h4>Pro Pack</h4>
+      <div class="price">$49 <small>one-time</small></div>
+      <div class="per">lifetime license for one association</div>
+      <ul>
+        <li>Everything in Free</li>
+        <li>Final notice / notice of hearing</li>
+        <li>Fine assessment &amp; continuing-violation letters</li>
+        <li>ARC approval &amp; denial letters</li>
+        <li>Assessment delinquency &amp; payment plan letters</li>
+        <li>Violation cured — confirmation letter</li>
+        <li>Certified-mail cover sheet &amp; enforcement log (DOCX)</li>
+        <li>Free updates as state rules change</li>
+      </ul>
+      <a class="btn-primary cta" id="buyLink2" href="https://gumroad.com" target="_blank" rel="noopener">Unlock Pro — $49</a>
+    </div>
+  </div>
+</section>
+
+<section class="states" id="states">
+  <h3>Know your state's rules before you send</h3>
+  <p class="sub">Most states require written notice and an opportunity to cure or be heard <em>before</em> a fine sticks. Highlights below — always confirm against the current statute and your governing documents.</p>
+  <div class="states-grid" id="statesGrid"></div>
+</section>
+
+<section class="faq" id="faq">
+  <h3>Board members ask…</h3>
+  <details>
+    <summary>Is this legal advice?</summary>
+    <p>No. HOA Letter Desk produces professionally formatted correspondence and points you to commonly cited statutory requirements, but it is not a law firm and no attorney-client relationship is created. Your CC&amp;Rs and current state law control — when a dispute has real money or a lien involved, have association counsel review before sending.</p>
+  </details>
+  <details>
+    <summary>Where does the homeowner data go?</summary>
+    <p>Nowhere. The generator is plain JavaScript running in your browser. There is no server, no database, no analytics on form fields, and no AI API receiving your residents' names. You can load this page once and use it with Wi-Fi off.</p>
+  </details>
+  <details>
+    <summary>Why does the escalation order matter?</summary>
+    <p>If a violation ever ends up before a judge, mediator, or your state ombudsman, the first question is whether the association gave fair notice and a chance to cure. A dated paper trail — courtesy → notice → final/hearing → fine — is the difference between an enforceable fine and a refunded one (plus attorney fees in some states).</p>
+  </details>
+  <details>
+    <summary>We're a tiny association. Is Pro really worth $49?</summary>
+    <p>One improperly noticed fine that gets challenged typically costs an association far more than $49 in legal review — and in states like Texas and Florida, skipping required notice can void the fine entirely. The Pro pack is a one-time expense your board can approve from operating funds and use for every violation, forever.</p>
+  </details>
+  <details>
+    <summary>Can our property manager use this?</summary>
+    <p>Yes — the license is per association. Management companies handling multiple communities should purchase one license per association or contact us for a portfolio license.</p>
+  </details>
+</section>
+
+<footer>
+  <p class="disclaimer"><strong>Disclaimer:</strong> HOA Letter Desk provides document templates and general information, not legal advice. Statutory summaries are provided for orientation only and may change; verify current law and consult a licensed attorney in your state before enforcement actions involving fines, liens, hearings, or foreclosure. Your association's governing documents may impose stricter requirements than state law.</p>
+  <p class="fine">© 2026 HOA Letter Desk · <a href="#generator">Generator</a> · <a href="#pricing">Pro</a> · Contact: hello@yourdomain.com</p>
+</footer>
+
+<script>
+/* =========================================================
+   HOA Letter Desk — all client-side, no data leaves the page
+   ========================================================= */
+
+const PRO_URL = "https://gumroad.com"; // ← replace with your Gumroad/Stripe payment link
+// Unlock codes: lowercase, trimmed, then hashed. Default code is "OAKDESK-2026".
+// To change: run  [...code].reduce((h,c)=>((h<<5)-h+c.charCodeAt(0))|0, 0)  in DevTools
+const PRO_HASHES = [1049069309];
+
+const simpleHash = s => [...s.trim().toLowerCase()].reduce((h,c)=>((h<<5)-h+c.charCodeAt(0))|0, 0);
+const isPro = () => localStorage.getItem("hld_pro") === "1";
+
+const LETTER_TYPES = [
+  {id:"courtesy",  name:"Courtesy Notice",        sub:"friendly first touch",      pro:false},
+  {id:"first",     name:"First Violation Notice", sub:"formal notice + cure",      pro:false},
+  {id:"second",    name:"Second Notice",          sub:"follow-up, still open",     pro:false},
+  {id:"final",     name:"Final Notice / Hearing", sub:"hearing before fines",      pro:true},
+  {id:"fine",      name:"Fine Assessment",        sub:"after hearing/cure lapse",  pro:true},
+  {id:"continuing",name:"Continuing Violation",   sub:"per-day fines accruing",    pro:true},
+  {id:"cured",     name:"Violation Cured",        sub:"close the loop kindly",     pro:true},
+  {id:"delinq",    name:"Assessment Delinquency", sub:"late dues, pre-collection", pro:true},
+];
+
+const VIOL = {
+  trash:  {label:"storage of trash containers in public view on non-collection days", short:"Trash containers stored in view"},
+  lawn:   {label:"failure to maintain the lawn and landscaping in the condition required by the governing documents", short:"Lawn / landscaping maintenance"},
+  vehicle:{label:"storage of an inoperable or prohibited vehicle on the property", short:"Inoperable / prohibited vehicle"},
+  parking:{label:"parking in violation of the Association's parking rules", short:"Parking violation"},
+  arch:   {label:"an exterior modification made without prior written approval of the Architectural Review Committee", short:"Unapproved architectural change"},
+  pet:    {label:"a violation of the Association's pet rules", short:"Pet rule violation"},
+  noise:  {label:"noise and/or nuisance conditions affecting neighboring residents", short:"Noise / nuisance"},
+  str:    {label:"use of the property as an unauthorized short-term rental", short:"Unauthorized short-term rental"},
+  fence:  {label:"a fence or structure maintained in a condition that violates the governing documents", short:"Fence / structure condition"},
+  holiday:{label:"holiday decorations remaining displayed beyond the period permitted by the rules", short:"Holiday décor past removal date"},
+  custom: {label:"the condition described below", short:"Rule violation"},
+};
+
+const STATES = {
+  TX:{name:"Texas", cite:"Tex. Prop. Code §209.006–.007", cure:30, notes:[
+      "Written notice by certified mail before fining or suspending rights.",
+      "Curable violations: owner gets a reasonable cure period (commonly 30 days) and the notice must say so.",
+      "Owner may request a hearing before the board within 30 days of the notice."],
+      blurb:"Certified-mail notice required before fines; curable violations get a cure window and hearing rights under §209.006–.007."},
+  CA:{name:"California", cite:"Civ. Code §§5850–5855 (Davis-Stirling)", cure:30, notes:[
+      "Board must adopt and distribute a fine schedule before imposing fines.",
+      "At least 10 days' written notice of a hearing before disciplinary action.",
+      "Written notice of the decision within 15 days after the hearing."],
+      blurb:"Fines require an adopted fine schedule, 10 days' hearing notice, and written decision within 15 days (Davis-Stirling)."},
+  FL:{name:"Florida", cite:"Fla. Stat. §720.305", cure:14, notes:[
+      "Fines require at least 14 days' notice and a hearing before an independent committee.",
+      "Fines capped at $100/day and $1,000 aggregate unless documents allow more.",
+      "Fines of $1,000+ may become a lien if the documents authorize it."],
+      blurb:"14 days' notice + independent committee hearing before fines; $100/day, $1,000 aggregate cap unless docs say otherwise."},
+  AZ:{name:"Arizona", cite:"A.R.S. §33-1803", cure:21, notes:[
+      "Notice must state the violation, the provision violated, and the date of the violation or observation.",
+      "Owner has 21 days to respond in writing; the association must respond to certified-mail requests.",
+      "No fine until the owner has had notice and an opportunity to be heard."],
+      blurb:"Notice must identify the rule, date observed, and give the owner a chance to respond (21 days) before penalties."},
+  NC:{name:"North Carolina", cite:"N.C.G.S. §47F-3-107.1", cure:0, notes:[
+      "Hearing before an adjudicatory panel required before imposing a fine.",
+      "Fines up to $100 per violation; continuing violations up to $100/day after 5 days.",
+      "Owner must receive notice of the charge and the hearing."],
+      blurb:"Adjudicatory hearing required before fines; up to $100/day for continuing violations after five days' notice."},
+  CO:{name:"Colorado", cite:"C.R.S. §38-33.3-209.5 (HB22-1137)", cure:30, notes:[
+      "Two notices generally required; 30-day cure before fines for non-health/safety matters.",
+      "Notice must be sent by two methods (e.g., mail + email) if on file.",
+      "Fine caps and foreclosure limits apply — review current statute carefully."],
+      blurb:"Post-2022 rules: multiple notices, 30-day cure for most violations, strict caps — one of the strictest regimes in the country."},
+  NV:{name:"Nevada", cite:"NRS 116.31031", cure:30, notes:[
+      "Written notice specifying the violation and proposed action, plus a hearing opportunity.",
+      "Most fines capped at $100 per violation / $1,000 total for non-health/safety violations.",
+      "Cure period required before fines for curable violations."],
+      blurb:"Notice + hearing required; most fines capped at $100 per violation and $1,000 aggregate."},
+  GA:{name:"Georgia", cite:"Ga. POAA / governing documents", cure:30, notes:[
+      "The Property Owners' Association Act largely defers to your declaration.",
+      "Fining authority must come from the recorded documents.",
+      "Follow the notice and hearing process your CC&Rs specify — precisely."],
+      blurb:"Statute defers to your recorded declaration — your CC&Rs' notice and hearing process is the law of your community."},
+  VA:{name:"Virginia", cite:"Va. Code §55.1-1819", cure:14, notes:[
+      "Charges up to $50 for a single offense or $10/day (max 90 days) for continuing violations.",
+      "Owner entitled to notice and an opportunity to be heard before charges.",
+      "Notice of the hearing result must be delivered within 7 days."],
+      blurb:"$50 single / $10-per-day (90-day max) charge limits, with mandatory notice and hearing under §55.1-1819."},
+  WA:{name:"Washington", cite:"RCW 64.38 / WUCIOA", cure:30, notes:[
+      "Fines must follow a board-adopted schedule after notice and opportunity to be heard.",
+      "Newer communities may fall under WUCIOA (RCW 64.90) with stricter process.",
+      "Check which act governs your association before fining."],
+      blurb:"Adopted fine schedule plus notice-and-hearing required; WUCIOA communities face stricter procedures."},
+  XX:{name:"Other state", cite:"Your governing documents", cure:30, notes:[
+      "Nearly every state requires notice and an opportunity to cure or be heard before fines.",
+      "Your CC&Rs and bylaws control the process — cite them precisely.",
+      "When in doubt, give more notice than you think you need."],
+      blurb:""},
+};
+
+/* ---------- letter builders ---------- */
+const DATE_OPTS = {year:"numeric",month:"long",day:"numeric"};
+const fmtDate = d => d ? new Date(d+"T12:00:00").toLocaleDateString("en-US", DATE_OPTS) : "";
+const today = () => new Date().toLocaleDateString("en-US", DATE_OPTS);
+
+function v(id, fallback){ const x = document.getElementById(id).value.trim(); return x || fallback; }
+
+function buildLetter(){
+  const type   = state.letterType;
+  const st     = document.getElementById("fState").value;
+  const S      = STATES[st] || STATES.XX;
+  const assoc  = v("fAssoc","[Association Name]");
+  const aaddr  = v("fAssocAddr","[Association Mailing Address]");
+  const owner  = v("fOwner","[Homeowner Name]");
+  const prop   = v("fProp","[Property Address]");
+  const violKey= document.getElementById("fViol").value;
+  const viol   = VIOL[violKey];
+  const sect   = v("fSection","[cited section] of the Declaration");
+  const obsRaw = document.getElementById("fDate").value;
+  const obs    = obsRaw ? fmtDate(obsRaw) : "[date observed]";
+  const cure   = v("fCure", String(S.cure || 30));
+  const notes  = document.getElementById("fNotes").value.trim();
+  const signer = v("fSigner","[Name]");
+  const title  = v("fTitle","Board President");
+  const fine   = v("fFine","$[amount]");
+
+  const reShort = viol.short + " (" + sect.replace(/ of the .*/i,"") + ")";
+  const hearingNote = S.notes[0] ? `<p>Please note: under ${S.cite}, ${S.notes[S.notes.length-1].charAt(0).toLowerCase() + S.notes[S.notes.length-1].slice(1)}</p>` : "";
+
+  const detailBlock = `
+    <div class="ltr-detail">
+      <div><strong>Property:</strong> ${prop}</div>
+      <div><strong>Violation:</strong> ${viol.short}</div>
+      <div><strong>Provision cited:</strong> ${sect}</div>
+      <div><strong>Date observed:</strong> ${obs}</div>
+      ${notes ? `<div><strong>Details:</strong> ${notes}</div>` : ""}
+    </div>`;
+
+  const head = `
+    <div class="letterhead">
+      <div class="assoc">${assoc.toUpperCase()}</div>
+      <div class="addr">${aaddr}</div>
+    </div>
+    <div class="ltr-meta">
+      ${today()}<br>
+      ${owner}<br>
+      ${prop}<br>
+      <em>Sent via ${type==="courtesy" ? "First-Class Mail" : "Certified Mail, Return Receipt Requested"}</em>
+    </div>`;
+
+  const sig = `
+    <div class="sig">
+      <p>Sincerely,</p>
+      <div class="line"></div>
+      <div><strong>${signer}</strong><br>${title}, ${assoc}</div>
+      <div class="cc">cc: Association violation file — ${prop} · Retain with certified mail receipt</div>
+    </div>
+    <div class="legal-foot">Generated with HOA Letter Desk · Template only — not legal advice · Verify requirements under ${S.cite} and your governing documents</div>`;
+
+  let body = "", re = "";
+
+  switch(type){
+    case "courtesy":
+      re = `Courtesy Notice — ${reShort}`;
+      body = `
+        <p>Dear ${owner},</p>
+        <p>We hope this note finds you well. During a routine review of the community on ${obs}, we noticed ${viol.label} at ${prop}. This appears to be inconsistent with ${sect}.</p>
+        ${detailBlock}
+        <p>We understand these things are usually simple oversights, and no formal action has been taken. We'd be grateful if you could address this within the next <strong>${cure} days</strong>. If the condition has already been corrected, or if we've misunderstood the situation, please let us know and we will close the file.</p>
+        <p>Thank you for helping keep ${assoc.replace(/ (homeowners|owners)? ?association.*/i,"")} a community we're all proud of.</p>`;
+      break;
+
+    case "first":
+      re = `NOTICE OF VIOLATION — ${reShort}`;
+      body = `
+        <p>Dear ${owner},</p>
+        <p>This letter serves as formal notice that the Association has observed ${viol.label} at ${prop}, in violation of ${sect}.</p>
+        ${detailBlock}
+        <p>You are requested to cure this violation within <strong>${cure} days</strong> of receipt of this notice. If the violation is cured within that period, no further action will be taken and the matter will be closed.</p>
+        <p>If the violation is not cured, the Association may pursue remedies available under the governing documents and ${S.cite}, which may include fines, suspension of privileges, or other enforcement action — in each case only after any notice and hearing required by law.</p>
+        ${hearingNote}
+        <p>If you believe this notice was issued in error, or if you wish to discuss a compliance plan, please contact the Board in writing at the address above.</p>`;
+      break;
+
+    case "second":
+      re = `SECOND NOTICE OF VIOLATION — ${reShort}`;
+      body = `
+        <p>Dear ${owner},</p>
+        <p>On a prior date the Association sent you written notice regarding ${viol.label} at ${prop}, in violation of ${sect}. A follow-up inspection on ${obs} found the violation has not been cured.</p>
+        ${detailBlock}
+        <p>You are requested to cure this violation within <strong>${cure} days</strong> of receipt of this second notice. Please treat this matter with urgency: if the violation remains uncured, the Board intends to proceed to a final notice and, if necessary, a hearing on the imposition of fines as permitted by ${S.cite} and the governing documents.</p>
+        <p>If the violation has been corrected since our inspection, please notify the Board in writing so we may verify and close the file.</p>`;
+      break;
+
+    case "final":
+      re = `FINAL NOTICE AND NOTICE OF HEARING — ${reShort}`;
+      body = `
+        <p>Dear ${owner},</p>
+        <p>Despite prior written notices, the violation described below remains uncured at ${prop}. This letter is the Association's <strong>final notice</strong> before enforcement action.</p>
+        ${detailBlock}
+        <p>You are hereby notified that the Board will convene a hearing to consider the imposition of fines and/or suspension of privileges regarding this violation. The hearing will be held on <strong>[hearing date]</strong> at <strong>[time]</strong> at <strong>[location]</strong>. You are entitled to attend, to be heard, and to present evidence before any penalty is imposed.</p>
+        <p>This hearing is provided in accordance with ${S.cite}. If you cure the violation before the hearing date and notify the Board in writing, the hearing will be cancelled and the file closed.</p>
+        <p>If you do not attend, the Board may proceed in your absence based on the record before it.</p>`;
+      break;
+
+    case "fine":
+      re = `NOTICE OF FINE ASSESSMENT — ${reShort}`;
+      body = `
+        <p>Dear ${owner},</p>
+        <p>Following written notice, an opportunity to cure, and the hearing held on <strong>[hearing date]</strong>, the Board has determined that the violation described below remains uncured and has voted to assess a fine in accordance with the Association's adopted fine schedule and ${S.cite}.</p>
+        ${detailBlock}
+        <p>A fine of <strong>${fine}</strong> has been assessed to your account, due within thirty (30) days of this notice. Payment should be remitted to the Association at the address above, referencing your property address.</p>
+        <p>Please note that curing the violation now will prevent additional fines but does not waive the amount already assessed. If the violation continues, additional fines may accrue as permitted by law and the governing documents.</p>
+        <p>If you believe this assessment was made in error, you may submit a written appeal to the Board within fourteen (14) days.</p>`;
+      break;
+
+    case "continuing":
+      re = `NOTICE OF CONTINUING VIOLATION AND ACCRUING FINES — ${reShort}`;
+      body = `
+        <p>Dear ${owner},</p>
+        <p>The violation described below, for which a fine was previously assessed after notice and hearing, remains uncured as of ${obs}.</p>
+        ${detailBlock}
+        <p>Please be advised that under the Association's adopted fine schedule and ${S.cite}, this is being treated as a <strong>continuing violation</strong>, and additional fines of <strong>${fine}</strong> per day/occurrence are accruing until the violation is cured, up to any maximum imposed by law.</p>
+        <p>To stop further fines from accruing, cure the violation and notify the Board in writing immediately so an inspection can verify compliance. The Board remains willing to discuss a written compliance plan.</p>`;
+      break;
+
+    case "cured":
+      re = `Violation Resolved — ${reShort}`;
+      body = `
+        <p>Dear ${owner},</p>
+        <p>Good news — following your recent correction, the Association inspected ${prop} on ${obs} and confirmed that the violation previously noticed (${viol.short}, ${sect}) has been <strong>cured</strong>.</p>
+        <p>This matter is now closed, and no further action will be taken. This letter will be retained in the property file as confirmation of your compliance.</p>
+        <p>Thank you for your cooperation and for helping maintain the standards of our community. We're glad to have this resolved.</p>`;
+      break;
+
+    case "delinq":
+      re = `NOTICE OF DELINQUENT ASSESSMENT — Account for ${prop}`;
+      body = `
+        <p>Dear ${owner},</p>
+        <p>Association records indicate that your assessment account for ${prop} is past due in the amount of <strong>${fine}</strong>${notes ? ` (${notes})` : ""}.</p>
+        <p>Please remit payment within <strong>${cure} days</strong> of this notice to the Association at the address above. If payment has already been sent, please disregard this notice and accept our thanks.</p>
+        <p>If you are experiencing financial hardship, the Board is willing to discuss a reasonable written payment plan — please contact us before the deadline. We would much rather work with you than escalate.</p>
+        <p>If the account remains unpaid, the Association may pursue remedies available under the governing documents and state law, which may include late charges, interest, suspension of privileges, and referral to counsel or collections — each only as permitted by ${S.cite} and applicable statutes.</p>`;
+      break;
+  }
+
+  return head + `<div class="ltr-re">RE: ${re}</div>` + body + sig;
+}
+
+/* ---------- state & rendering ---------- */
+const state = { letterType:"first" };
+
+function renderChips(){
+  const grid = document.getElementById("ltGrid");
+  grid.innerHTML = "";
+  LETTER_TYPES.forEach(lt=>{
+    const el = document.createElement("div");
+    el.className = "lt-chip" + (lt.id===state.letterType?" active":"") + (lt.pro && !isPro() ? " locked":"");
+    el.innerHTML = `${lt.name}<small>${lt.sub}</small>`;
+    el.onclick = ()=>{ state.letterType = lt.id; renderChips(); render(); };
+    grid.appendChild(el);
+  });
+}
+
+function renderStateBar(){
+  const st = document.getElementById("fState").value;
+  const S = STATES[st] || STATES.XX;
+  document.getElementById("stateBar").innerHTML =
+    `<b>${S.name} — ${S.cite}</b><ul>${S.notes.map(n=>`<li>${n}</li>`).join("")}</ul>`;
+  const cureEl = document.getElementById("fCure");
+  if(S.cure && !cureEl.dataset.touched) cureEl.value = S.cure;
+}
+
+function render(){
+  const lt = LETTER_TYPES.find(l=>l.id===state.letterType);
+  document.getElementById("fineWrap").style.display =
+    ["fine","continuing","delinq"].includes(state.letterType) ? "block" : "none";
+  document.getElementById("letterSheet").innerHTML = buildLetter();
+  const locked = lt.pro && !isPro();
+  document.getElementById("lockedOverlay").classList.toggle("show", locked);
+  if(locked) document.getElementById("lockedTitle").textContent = lt.name;
+}
+
+function copyLetter(){
+  const txt = document.getElementById("letterSheet").innerText;
+  navigator.clipboard.writeText(txt).then(()=>{
+    const n = document.getElementById("copiedNote");
+    n.classList.add("show"); setTimeout(()=>n.classList.remove("show"), 1800);
+  });
+}
+
+function tryUnlock(){
+  const code = document.getElementById("licenseInput").value;
+  if(PRO_HASHES.includes(simpleHash(code))){
+    localStorage.setItem("hld_pro","1");
+    document.getElementById("licenseErr").textContent = "";
+    renderChips(); render();
+  }else{
+    document.getElementById("licenseErr").textContent = "That code doesn't match — check your receipt email.";
+  }
+}
+
+/* ---------- init ---------- */
+(function init(){
+  const sel = document.getElementById("fState");
+  Object.entries(STATES).forEach(([k,s])=>{
+    const o = document.createElement("option");
+    o.value = k; o.textContent = s.name;
+    sel.appendChild(o);
+  });
+  sel.value = "TX";
+  sel.addEventListener("change", ()=>{ renderStateBar(); render(); });
+  document.getElementById("fCure").addEventListener("input", e=> e.target.dataset.touched = "1");
+  document.querySelectorAll(".panel-body input, .panel-body select, .panel-body textarea")
+    .forEach(el=> el.addEventListener("input", render));
+  document.getElementById("fDate").value = new Date().toISOString().slice(0,10);
+
+  // states grid
+  const sg = document.getElementById("statesGrid");
+  Object.values(STATES).filter(s=>s.blurb).forEach(s=>{
+    const d = document.createElement("div");
+    d.className = "state-card";
+    d.innerHTML = `<h5>${s.name}</h5><div class="cite">${s.cite}</div><p>${s.blurb}</p>`;
+    sg.appendChild(d);
+  });
+
+  document.getElementById("buyLink").href = PRO_URL;
+  document.getElementById("buyLink2").href = PRO_URL;
+
+  renderChips(); renderStateBar(); render();
+})();
+</script>
+</body>
+</html>
