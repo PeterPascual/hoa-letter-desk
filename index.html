@@ -347,7 +347,7 @@
       <a href="#generator">Generator</a>
       <a href="#states">State Rules</a>
       <a href="#faq">FAQ</a>
-      <a href="#pricing" class="btn-pro">Unlock Pro — $49</a>
+      <a href="#pricing" class="btn-pro" id="navPro">Unlock Pro — $49</a>
     </nav>
   </div>
 </header>
@@ -836,12 +836,25 @@ function copyLetter(){
   });
 }
 
+function applyProUi(){
+  if(!isPro()) return;
+  const nav = document.getElementById("navPro");
+  nav.textContent = "Pro unlocked ✓";
+  nav.removeAttribute("href");
+  nav.style.cursor = "default";
+  const buy = document.getElementById("buyLink2");
+  buy.textContent = "✓ Unlocked on this device";
+  buy.removeAttribute("href");
+  buy.style.cursor = "default";
+  buy.style.opacity = ".7";
+}
+
 function tryUnlock(){
   const code = document.getElementById("licenseInput").value;
   if(PRO_HASHES.includes(simpleHash(code))){
     localStorage.setItem("hld_pro","1");
     document.getElementById("licenseErr").textContent = "";
-    renderChips(); render();
+    renderChips(); render(); applyProUi();
   }else{
     document.getElementById("licenseErr").textContent = "That code doesn't match — check your receipt email.";
   }
@@ -874,7 +887,7 @@ function tryUnlock(){
   document.getElementById("buyLink").href = PRO_URL;
   document.getElementById("buyLink2").href = PRO_URL;
 
-  renderChips(); renderStateBar(); render();
+  renderChips(); renderStateBar(); render(); applyProUi();
 })();
 </script>
 </body>
