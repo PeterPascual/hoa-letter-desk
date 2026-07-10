@@ -196,7 +196,9 @@
     box-shadow:var(--shadow);padding:56px 60px;
     font-family:var(--font-letter);font-size:14.5px;line-height:1.75;color:#1d2620;
     min-height:700px;position:relative;
+    display:flex;flex-direction:column;
   }
+  .letter-sheet > *{flex-shrink:0}
   .letter-sheet .letterhead{
     text-align:center;border-bottom:2.5px solid var(--pine);padding-bottom:14px;margin-bottom:26px;
   }
@@ -214,9 +216,10 @@
   .letter-sheet .sig .line{width:230px;border-bottom:1px solid #555;height:34px;margin-bottom:5px}
   .letter-sheet .cc{margin-top:26px;font-size:12px;color:var(--ink-soft)}
   .letter-sheet .legal-foot{
-    position:absolute;bottom:22px;left:60px;right:60px;
-    font-size:10px;color:#8b8474;border-top:1px solid var(--line);padding-top:8px;text-align:center;
+    margin-top:auto;padding-top:8px;
+    font-size:10px;color:#8b8474;border-top:1px solid var(--line);text-align:center;
   }
+  .letter-sheet .sig{margin-bottom:30px}
 
   /* locked overlay */
   .locked-overlay{
@@ -303,7 +306,7 @@
     .workbench{display:block}
     .preview-wrap{position:static}
     @page{margin:0.55in 0.65in}
-    .letter-sheet{border:none;box-shadow:none;padding:0;min-height:auto;font-size:11.5pt;line-height:1.5}
+    .letter-sheet{display:block;border:none;box-shadow:none;padding:0;min-height:auto;font-size:11.5pt;line-height:1.5}
     .letter-sheet .legal-foot{display:none}
     .letter-sheet .letterhead{padding-bottom:10px;margin-bottom:16px}
     .letter-sheet .ltr-meta{margin-bottom:16px}
